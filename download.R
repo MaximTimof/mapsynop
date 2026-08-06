@@ -1,5 +1,5 @@
 # 
-site <- "https://meteoinfo.ru"
+site <- "https://meteoinfo.ru/hmc-input/mapsynop/"
 vec_spisok <- c("Analiz", "Analiz00h", "Analiz06h", "Analiz12h", "Analiz18h", "Analizsp",
                  "Min", "Max", "Precip", "OT500-1000-00", "AT-925-00", "AT-850-00", "AT-700-00",
                  "AT-500-00", "AT-400-00", "AT-300-00", "AT-200-00",
