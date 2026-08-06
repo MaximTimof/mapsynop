@@ -1,6 +1,5 @@
-# Скачивание синоптических карт ----------------------------------------------------
-## НУЖНО ЗАПУСКАТЬ СКРИПТ КАЖДЫЙ ДЕНЬ, РАЗ В СУТКИ!!!
-site <- "https://meteoinfo.ru/hmc-input/mapsynop/"
+# 
+site <- "https://meteoinfo.ru"
 vec_spisok <- c("Analiz", "Analiz00h", "Analiz06h", "Analiz12h", "Analiz18h", "Analizsp",
                  "Min", "Max", "Precip", "OT500-1000-00", "AT-925-00", "AT-850-00", "AT-700-00",
                  "AT-500-00", "AT-400-00", "AT-300-00", "AT-200-00",
@@ -8,14 +7,33 @@ vec_spisok <- c("Analiz", "Analiz00h", "Analiz06h", "Analiz12h", "Analiz18h", "A
                  "AT-400-12", "AT-300-12", "AT-200-12", "AT-100-12")
 
 papka <- "maps_archive/" 
-t <- format(Sys.time(), "%a %b %e %Y")
+t <- format(Sys.time(), "%Y-%m-%d")
 file_path <- paste0(papka, t, "/")
 
+dir.create(path = file_path, recursive = TRUE, showWarnings = FALSE)
 
-dir.create(path = file_path)
+#User-Agent
+options(HTTPUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 
-for (i in 1:27){
+for (i in 1:length(vec_spisok)){
    urlki <- paste0(site, vec_spisok[i], ".png")
    file_name <- paste0(vec_spisok[i], ".png")
-   try(download.file(url = urlki, destfile = paste0(file_path, file_name, sep = ""), mode = "wb"))
+   dest <- paste0(file_path, file_name)
+   
+   print(paste("РЎРєР°С‡РёРІР°СЋ:", urlki))
+   
+   #
+   result <- try(download.file(url = urlki, destfile = dest, mode = "wb", quiet = TRUE))
+   
+   if (inherits(result, "try-error")) {
+      print(paste("РћС€РёР±РєР° РїСЂРё СЃРєР°С‡РёРІР°РЅРёРё С„Р°Р№Р»Р°:", file_name))
+   }
+}
+
+# 
+files_count <- length(list.files(file_path))
+print(paste("Р’СЃРµРіРѕ СѓСЃРїРµС€РЅРѕ СЃРєР°С‡Р°РЅРѕ С„Р°Р№Р»РѕРІ:", files_count))
+
+if (files_count == 0) {
+   stop("РќРё РѕРґРёРЅ С„Р°Р№Р» РЅРµ Р±С‹Р» СЃРєР°С‡Р°РЅ! РџСЂРёРЅСѓРґРёС‚РµР»СЊРЅР°СЏ РѕСЃС‚Р°РЅРѕРІРєР° СЃРєСЂРёРїС‚Р°.")
 }
