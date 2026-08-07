@@ -2,8 +2,8 @@ name: Daily Maps Downloader (R)
 
 on:
   schedule:
-    # Запуск каждый день в 04:00 UTC (это 07:00 по Москве)
-    - cron: '0 4 * * *'
+    # Запуск каждый день в 04:37 UTC (это 07:37 по Москве)
+    - cron: '37 4 * * *'
   workflow_dispatch: # Кнопка для ручного запуска в интерфейсе GitHub
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
     - name: Сохранение карт в репозиторий
       run: |
         git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@://github.com"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add maps_archive/
         git commit -m "Авто-добавление карт за: $(date +'%Y-%m-%d')" || echo "Нет изменений"
         git push
